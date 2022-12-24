@@ -1,6 +1,6 @@
 package com.mungaicodes.tomesanctuary.data.remote.dto
 
-data class ImageLinksDto(
+data class ImageLinks(
     val smallThumbnail: String,
     val thumbnail: String
 )
