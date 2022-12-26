@@ -10,6 +10,8 @@ interface BookApiService {
     @GET("/books/v1/volumes")
     suspend fun searchVolumes(
         @Query(value = "q") query: String,
+        @Query(value = "download") downloadFormat: String = "epub",
+        @Query(value = "projection") projectionParameter: String = "full",
         @Query(value = "apikey") key: String = API_KEY
     ): Response
 

@@ -29,11 +29,12 @@ fun BookItem2(
         Box(Modifier.fillMaxSize()) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(book.volumeInfo.imageLinks.smallThumbnail)
+                    .data(book.volumeInfo.imageLinks.thumbnail . replace("http", "https"))
                     .crossfade(true)
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.ic_broken_image)
                     .build(),
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(R.drawable.loading_img),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize()
             )

@@ -36,7 +36,7 @@ class SearchScreenViewModel @Inject constructor(
         val query = _uiState.value.searchQuery
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            repo.getSearchResults(query).onEach { result ->
+            repo.getSearchResults("intitle:$query").onEach { result ->
                 when (result) {
                     is Resource.Loading -> {
                         _uiState.update {
