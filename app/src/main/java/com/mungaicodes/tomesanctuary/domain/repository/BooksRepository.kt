@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface BooksRepository {
 
-    suspend fun getSearchResults(query: String): Flow<Resource<List<Book>>>
+    suspend fun getSearchResults(query: String): Flow<Resource<List<Book?>>>
 }

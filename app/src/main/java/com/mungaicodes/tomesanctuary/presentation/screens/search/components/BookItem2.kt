@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -29,7 +28,7 @@ fun BookItem2(
         Box(Modifier.fillMaxSize()) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(book.volumeInfo.imageLinks.thumbnail . replace("http", "https"))
+                    .data(book.volumeInfo.imageLinks.thumbnail.replace("http", "https"))
                     .crossfade(true)
                     .placeholder(R.drawable.loading_animation)
                     .error(R.drawable.ic_broken_image)

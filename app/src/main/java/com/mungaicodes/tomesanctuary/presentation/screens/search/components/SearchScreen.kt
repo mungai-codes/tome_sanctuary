@@ -2,11 +2,9 @@ package com.mungaicodes.tomesanctuary.presentation.screens.search.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -66,7 +64,9 @@ fun SearchScreen(
                         .padding(horizontal = 16.dp)
                 ) {
                     items(state.books) { book ->
-                        BookItem2(book = book)
+                        if (book != null) {
+                            BookItem2(book = book)
+                        }
                     }
                 }
             }

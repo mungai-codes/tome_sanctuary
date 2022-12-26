@@ -54,7 +54,10 @@ fun Toolbar(
                 },
             ),
             trailingIcon = {
-                IconButton(onClick = { viewModel.onSearch() }) {
+                IconButton(onClick = {
+                    viewModel.onSearch()
+                    focusManager.clearFocus(true)
+                }) {
                     Icon(
                         imageVector = Icons.Rounded.Search,
                         contentDescription = "search button"
