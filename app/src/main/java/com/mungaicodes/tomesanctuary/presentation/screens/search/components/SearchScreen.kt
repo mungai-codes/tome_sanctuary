@@ -1,6 +1,7 @@
 package com.mungaicodes.tomesanctuary.presentation.screens.search.components
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -11,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mungaicodes.tomesanctuary.presentation.screens.search.SearchScreenViewModel
@@ -25,6 +27,7 @@ fun SearchScreen(
 
     val state = viewModel.uiState.collectAsState().value
     val scaffoldState = rememberScaffoldState()
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
@@ -33,6 +36,9 @@ fun SearchScreen(
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message
                     )
+                }
+                is UiEvent.ShowInfoToast -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -49,12 +55,6 @@ fun SearchScreen(
                 Divider()
 
                 Spacer(modifier = Modifier.height(12.dp))
-
-//                LazyColumn {
-//                    items(state.books) { book ->
-//                        Text(text = book.volumeInfo.imageLinks.thumbnail)
-//                    }
-//                }
 
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),

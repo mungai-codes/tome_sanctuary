@@ -28,7 +28,7 @@ fun BookItem2(
         Box(Modifier.fillMaxSize()) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(book.volumeInfo.imageLinks.thumbnail.replace("http", "https"))
+                    .data(book.volumeInfo?.imageLinks?.thumbnail?.replace("http", "https"))
                     .crossfade(true)
                     .placeholder(R.drawable.loading_animation)
                     .error(R.drawable.ic_broken_image)
@@ -43,15 +43,17 @@ fun BookItem2(
                     .height(56.dp)
                     .align(Alignment.BottomCenter)
             )
-            Text(
-                text = book.volumeInfo.title,
-                color = MaterialTheme.colors.onPrimary,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .align(Alignment.BottomStart),
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
+            book.volumeInfo?.let {
+                Text(
+                    text = it.title,
+                    color = MaterialTheme.colors.onPrimary,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .align(Alignment.BottomStart),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }

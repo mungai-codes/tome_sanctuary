@@ -24,19 +24,12 @@ class SearchScreenViewModel @Inject constructor(
 
     private var searchJob: Job? = null
 
-    fun onQueryChanged(query: String) {
-        _uiState.update {
-            it.copy(
-                searchQuery = query
-            )
-        }
-    }
-
     fun onSearch() {
-        val query = _uiState.value.searchQuery
+        val queryString = _uiState.value.searchQuery
+        val keyword = _uiState.value.searchKeyWord
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            repo.getSearchResults("intitle:$query").onEach { result ->
+            repo.getSearchResults(keyword + queryString).onEach { result ->
                 when (result) {
                     is Resource.Loading -> {
                         _uiState.update {
@@ -50,6 +43,11 @@ class SearchScreenViewModel @Inject constructor(
                                 isLoading = false
                             )
                         }
+                        _eventFlow.emit(
+                            UiEvent.ShowInfoToast(
+                                "Loaded Successfully!!"
+                            )
+                        )
                     }
                     is Resource.Error -> {
                         _uiState.update {
@@ -65,6 +63,32 @@ class SearchScreenViewModel @Inject constructor(
                     }
                 }
             }.launchIn(this)
+        }
+    }
+
+    fun onQueryChanged(query: String) {
+        _uiState.update {
+            it.copy(
+                searchQuery = query
+            )
+        }
+    }
+
+    fun keywordSelector(keyword: String) {
+        _uiState.update {
+            it.copy(searchKeyWord = keyword)
+        }
+    }
+
+    fun expandDropDown() {
+        _uiState.update {
+            it.copy(menuExpanded = true)
+        }
+    }
+
+    fun closeDropdown() {
+        _uiState.update {
+            it.copy(menuExpanded = false)
         }
     }
 }

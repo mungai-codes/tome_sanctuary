@@ -6,5 +6,7 @@ data class SearchScreenUiState(
     val books: List<Book?> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null,
-    val searchQuery: String = ""
+    val searchKeyWord: String = "intitle:",
+    val searchQuery: String = "",
+    val menuExpanded: Boolean = false
 )
