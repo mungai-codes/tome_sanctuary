@@ -107,6 +107,7 @@ fun Toolbar(
                                 DropdownMenuItem(
                                     onClick = {
                                         viewModel.keywordSelector(value)
+                                        viewModel.onSearch()
                                         viewModel.closeDropdown()
                                     },
                                 ) {

@@ -45,7 +45,7 @@ class SearchScreenViewModel @Inject constructor(
                         }
                         _eventFlow.emit(
                             UiEvent.ShowInfoToast(
-                                "Loaded Successfully!!"
+                                "Results for: ${keyword.uppercase()} $queryString"
                             )
                         )
                     }

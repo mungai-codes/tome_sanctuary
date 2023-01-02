@@ -92,4 +92,10 @@ dependencies {
 
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.4.3"
+
+    //flow row
+    implementation "com.google.accompanist:accompanist-flowlayout:0.20.0"
+
+    //google play services
+    implementation 'com.google.android.gms:play-services-auth:20.4.0'
 }

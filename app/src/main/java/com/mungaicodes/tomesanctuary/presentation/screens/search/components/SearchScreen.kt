@@ -3,9 +3,11 @@ package com.mungaicodes.tomesanctuary.presentation.screens.search.components
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,7 +24,7 @@ import kotlinx.coroutines.flow.collectLatest
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(
-    viewModel: SearchScreenViewModel = hiltViewModel()
+    viewModel: SearchScreenViewModel = hiltViewModel(),
 ) {
 
     val state = viewModel.uiState.collectAsState().value
@@ -47,14 +49,25 @@ fun SearchScreen(
     Scaffold(
         scaffoldState = scaffoldState
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Column {
+        Column(modifier = Modifier.fillMaxSize()) {
 
-                Toolbar(viewModel)
+            Toolbar(viewModel)
 
-                Divider()
+            Divider()
 
-                Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Column(verticalArrangement = Arrangement.SpaceAround) {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) {
+                    items(state.books) { book ->
+                        if (book != null) {
+                            BookItem2(book = book)
+                        }
+                    }
+                }
 
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
@@ -70,10 +83,10 @@ fun SearchScreen(
                     }
                 }
             }
+
             if (state.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
             }
         }
     }
-
 }

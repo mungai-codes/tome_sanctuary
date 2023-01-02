@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Tome Sanctuary</string>
+
+    <string name="google_cloud_server_client_id">
+        1006304792293-20uujaja10i02g51p58q3is3i5nlgp52.apps.googleusercontent.com
+    </string>
+
+    <string name="google_cloud_server_client_secret">
+        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
+    </string>
+
 </resources>

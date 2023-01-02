@@ -24,7 +24,7 @@ class BooksRepositoryImpl @Inject constructor(
             if (books.isEmpty()) {
                 emit(Resource.Error("Volume not found!!"))
             } else {
-                emit(Resource.Success(data = books))
+                emit(Resource.Success(data = books.distinctBy { book -> book.volumeInfo?.title }))
             }
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: ("Http Error: " + e.message)))

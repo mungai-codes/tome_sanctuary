@@ -11,8 +11,13 @@ interface BookApiService {
     suspend fun searchVolumes(
         @Query(value = "q") query: String,
         @Query(value = "download") downloadFormat: String = "epub",
-        @Query(value = "projection") projectionParameter: String = "full",
-        @Query(value = "apikey") key: String = API_KEY
+        @Query(value = "filter") filter: String = "partial",
+        @Query(value = "startIndex") startIndex: Int = 0,
+        @Query(value = "maxResults") maxResults: Int = 12,
+        @Query(value = "printType") printType: String = "books",
+        @Query(value = "projection") projection: String = "lite",
+        @Query(value = "orderBy") sorting: String = "relevance",
+        @Query(value = "apikey") apiKey: String = API_KEY
     ): Response
 
 }

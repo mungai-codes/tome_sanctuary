@@ -5,9 +5,10 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,13 +17,20 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.domain.model.Book
+import com.mungaicodes.tomesanctuary.presentation.ui.theme.GreenGrey50
+import com.mungaicodes.tomesanctuary.presentation.ui.theme.Grey10
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.SelectedItem
+import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 
 @Composable
 fun BookItem2(
@@ -30,7 +38,9 @@ fun BookItem2(
 ) {
     var expanded by remember { mutableStateOf(false) }
     Card(
-        Modifier
+        elevation = 4.dp,
+        shape = RoundedCornerShape(4.dp),
+        modifier = Modifier
             .animateContentSize(
                 animationSpec = spring(
                     dampingRatio = Spring.DampingRatioMediumBouncy,
@@ -41,14 +51,16 @@ fun BookItem2(
         Column {
             Box(
                 Modifier
-                    .fillMaxSize()
-                    .size(140.dp, 220.dp)
                     .animateContentSize(
                         animationSpec = spring(
                             dampingRatio = Spring.DampingRatioMediumBouncy,
                             stiffness = Spring.StiffnessLow
                         )
                     )
+                    .fillMaxSize()
+                    .size(140.dp, 220.dp)
+                    .border(BorderStroke(2.dp, GreenGrey50))
+
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
@@ -71,7 +83,10 @@ fun BookItem2(
                     Row(modifier = Modifier.align(Alignment.BottomStart)) {
                         Text(
                             text = it.title,
-                            color = MaterialTheme.colors.onPrimary,
+                            color = TextWhite,
+                            fontFamily = FontFamily.Cursive,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
                             modifier = Modifier
                                 .padding(8.dp)
                                 .weight(0.75f),
@@ -87,7 +102,7 @@ fun BookItem2(
             }
             if (expanded) {
                 Card(
-                    elevation = 4.dp,
+                    elevation = 8.dp,
                     border = BorderStroke(2.dp, SelectedItem),
                     modifier = Modifier
                         .wrapContentSize()
