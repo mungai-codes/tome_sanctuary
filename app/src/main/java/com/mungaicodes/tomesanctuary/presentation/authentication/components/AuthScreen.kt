@@ -53,6 +53,6 @@ fun AuthScreen(
     )
 
     user?.let {
-        SearchScreen2(user = it)
+        SearchScreen2()
     }
 }

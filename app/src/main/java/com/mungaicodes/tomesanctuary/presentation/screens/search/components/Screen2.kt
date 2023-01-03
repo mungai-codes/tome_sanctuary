@@ -22,7 +22,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode
-import com.mungaicodes.tomesanctuary.presentation.authentication.util.User
 import com.mungaicodes.tomesanctuary.presentation.screens.search.SearchScreenViewModel
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 import com.mungaicodes.tomesanctuary.util.UiEvent
@@ -32,7 +31,6 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun SearchScreen2(
     viewModel: SearchScreenViewModel = hiltViewModel(),
-    user: User
 ) {
 
     val state = viewModel.uiState.collectAsState().value

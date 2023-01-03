@@ -98,4 +98,6 @@ dependencies {
 
     //google play services
     implementation 'com.google.android.gms:play-services-auth:20.4.0'
+
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
 }
