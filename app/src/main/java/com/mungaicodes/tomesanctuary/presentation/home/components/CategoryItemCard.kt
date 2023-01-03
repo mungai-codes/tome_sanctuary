@@ -1,5 +1,8 @@
 package com.mungaicodes.tomesanctuary.presentation.home.components
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -45,12 +48,19 @@ fun CategoryItem(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(
-                top = 10.dp,
-                start = 14.dp,
-                end = 14.dp,
-                bottom = 5.dp
-            )
+            modifier = Modifier
+                .padding(
+                    top = 10.dp,
+                    start = 14.dp,
+                    end = 14.dp,
+                    bottom = 5.dp
+                )
+                .animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioHighBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                ),
         ) {
             Box(modifier = Modifier.size(50.dp)) {
                 Image(
@@ -65,7 +75,8 @@ fun CategoryItem(
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.Serif,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = Color.DarkGray
             )
         }
 

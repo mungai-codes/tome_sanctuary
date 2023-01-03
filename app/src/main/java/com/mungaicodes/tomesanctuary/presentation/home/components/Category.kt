@@ -44,4 +44,24 @@ val categories = listOf(
         title = "Romance",
         image = R.drawable.code_icon
     ),
+    Category(
+        title = "History",
+        image = R.drawable.code_icon
+    ),
+    Category(
+        title = "Autobiography",
+        image = R.drawable.code_icon
+    ),
+    Category(
+        title = "Graphic Novel",
+        image = R.drawable.code_icon
+    ),
+    Category(
+        title = "Children's Literature",
+        image = R.drawable.code_icon
+    ),
+    Category(
+        title = "Mystery",
+        image = R.drawable.code_icon
+    ),
 )

@@ -1,11 +1,11 @@
 package com.mungaicodes.tomesanctuary.presentation.home.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.FileOpen
@@ -22,7 +22,9 @@ import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
 
 @Composable
-fun FabMenu(modifier: Modifier = Modifier) {
+fun FabMenu(
+    modifier: Modifier = Modifier,
+) {
     Card(
         modifier = modifier
             .wrapContentWidth()
@@ -35,12 +37,11 @@ fun FabMenu(modifier: Modifier = Modifier) {
         Row(
             modifier = Modifier
                 .padding(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(30.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             FabMenuItem(
                 icon = Icons.Rounded.Bookmark,
-                description = "bookmarked",
+                description = "bookmark",
                 onClick = {
                     //TODO
                 }
@@ -71,14 +72,14 @@ fun FabMenuItem(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    Icon(
-        imageVector = icon,
-        contentDescription = description,
-        modifier = modifier
-            .clickable { onClick() },
-        tint = TextWhite
-    )
 
+    IconButton(onClick = { onClick() }) {
+        Icon(
+            imageVector = icon,
+            contentDescription = description,
+            tint = TextWhite
+        )
+    }
 }
 
 @Composable
