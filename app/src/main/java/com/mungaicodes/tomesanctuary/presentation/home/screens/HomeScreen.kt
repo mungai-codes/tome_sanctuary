@@ -11,7 +11,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mungaicodes.tomesanctuary.presentation.home.components.FAB
+import com.mungaicodes.tomesanctuary.presentation.home.components.FabButton
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
@@ -35,7 +35,7 @@ fun HomeScreen() {
             }
         },
         floatingActionButton = {
-            FAB()
+            FabButton()
         }
     ) { innerPadding ->
 

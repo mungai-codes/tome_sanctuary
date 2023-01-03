@@ -18,7 +18,7 @@ import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.StatusBar
 
 @Composable
-fun FAB() {
+fun FabButton() {
 
     var isCollapsed by remember {
         mutableStateOf(false)
