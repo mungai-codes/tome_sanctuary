@@ -25,24 +25,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mungaicodes.tomesanctuary.R
-import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
+import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
 
 @Composable
 fun CategoryItem(
     category: Category,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
 
     Card(
         modifier = modifier
             .size(120.dp)
-            .clickable { onClick() }
-            .shadow(10.dp, RectangleShape),
+            .clickable {
+                onClick()
+            }
+            .shadow(10.dp, RectangleShape)
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            ),
         shape = RoundedCornerShape(10.dp),
         elevation = 8.dp,
-        backgroundColor = TextWhite,
+        backgroundColor = LampLight,
         border = BorderStroke(2.dp, Color.LightGray)
     ) {
         Column(
@@ -97,7 +105,8 @@ fun CatetegoryCardPreview() {
             CategoryItem(
                 category = Category(
                     title = "Art & Literature",
-                    image = R.drawable.code_icon
+                    image = R.drawable.code_icon,
+                    description = "",
                 )
             ) {
 

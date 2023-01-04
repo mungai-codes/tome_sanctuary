@@ -6,7 +6,7 @@ import com.mungaicodes.tomesanctuary.R
 data class Category(
     val title: String,
     val description: String = "...",
-    val category: String = "Android",
+    val query: String = "Android",
     @DrawableRes
     val image: Int
 )
@@ -29,7 +29,7 @@ val categories = listOf(
         image = R.drawable.code_icon
     ),
     Category(
-        title = "Art & Literature",
+        title = "Art and Literature",
         image = R.drawable.code_icon
     ),
     Category(

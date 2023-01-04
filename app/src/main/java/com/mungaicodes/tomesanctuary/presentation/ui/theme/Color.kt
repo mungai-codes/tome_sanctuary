@@ -6,7 +6,7 @@ val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
-val SelectedItem = Color(102,203,187)
+val SelectedItem = Color(102, 203, 187)
 
 val TextWhite = Color(0xFFEEEEEE)
 
@@ -50,4 +50,6 @@ val GreenGrey60 = Color(0xFF74be92)
 val GreenGrey80 = Color(0xFFbadec8)
 val GreenGrey90 = Color(0xFFdcefe4)
 
-val StatusBar = Color(125,63,6)
+val StatusBar = Color(125, 63, 6)
+
+val LampLight = Color(254, 253, 254)

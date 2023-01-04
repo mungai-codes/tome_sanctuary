@@ -21,13 +21,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.mungaicodes.tomesanctuary.presentation.home.components.*
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: NavController
+) {
 
     val scaffoldState = rememberScaffoldState()
     val lazyGridState = rememberLazyGridState()
@@ -93,7 +97,7 @@ fun HomeScreen() {
                         CategoryItem(
                             category = category,
                         ) {
-
+                            navController.navigate("category" + "?category=${category.title}&query=${category.query}")
                         }
                     }
                 }
@@ -109,7 +113,8 @@ fun HomeScreen() {
 @Composable
 fun HomeScreenPreview() {
     TomeSanctuaryTheme {
-        HomeScreen()
+        val navController = rememberNavController()
+        HomeScreen(navController)
     }
 }
 
