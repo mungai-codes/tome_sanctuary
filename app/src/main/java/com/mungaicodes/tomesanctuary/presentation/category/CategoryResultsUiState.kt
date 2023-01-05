@@ -6,5 +6,6 @@ data class CategoryResultsUiState(
     val categoryTitle: String = "CATEGORY",
     val books: List<Book?> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val modalBook: Book? = null
 )

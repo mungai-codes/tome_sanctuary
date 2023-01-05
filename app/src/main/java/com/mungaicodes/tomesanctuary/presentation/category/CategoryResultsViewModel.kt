@@ -1,5 +1,6 @@
 package com.mungaicodes.tomesanctuary.presentation.category
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -58,6 +59,33 @@ class CategoryResultsViewModel @Inject constructor(
                     }
                 }.launchIn(this)
             }
+        }
+    }
+
+    suspend fun getModalBook(volumeId: String) {
+        viewModelScope.launch {
+            repo.findBookByVolumeId(volumeId).onEach { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _uiState.update {
+                            it.copy(modalBook = result.data)
+                        }
+                        Log.d("ModalBook", "Success")
+                    }
+                    is Resource.Error -> {
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false
+                            )
+                        }
+                        Log.d("ModalBook", "Error")
+                    }
+
+                    is Resource.Loading -> {
+                        //nothing really happens
+                    }
+                }
+            }.launchIn(this)
         }
     }
 }

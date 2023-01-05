@@ -8,5 +8,5 @@ data class SearchScreenUiState(
     val error: String? = null,
     val searchKeyWord: String = "intitle:",
     val searchQuery: String = "",
-    val menuExpanded: Boolean = false
+    val menuExpanded: Boolean = false,
 )

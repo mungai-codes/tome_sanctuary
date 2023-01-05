@@ -1,6 +1,7 @@
 package com.mungaicodes.tomesanctuary.data.repository
 
 import android.util.Log
+import com.mungaicodes.tomesanctuary.data.mapper.toBook
 import com.mungaicodes.tomesanctuary.data.mapper.toListOfBooks
 import com.mungaicodes.tomesanctuary.data.remote.api.BookApiService
 import com.mungaicodes.tomesanctuary.domain.model.Book
@@ -26,6 +27,21 @@ class BooksRepositoryImpl @Inject constructor(
             } else {
                 emit(Resource.Success(data = books.distinctBy { book -> book.volumeInfo?.title }))
             }
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.localizedMessage ?: ("Http Error: " + e.message)))
+            Log.i(TAG, e.message.toString())
+
+        } catch (e: IOException) {
+            emit(Resource.Error(e.localizedMessage ?: ("IO Error: " + e.message)))
+            Log.i(TAG, e.message.toString())
+        }
+    }
+
+    override suspend fun findBookByVolumeId(volumeId: String): Flow<Resource<Book>> = flow {
+        try {
+            val book = api.findBookByVolumeId(volumeId).toBook()
+            emit(Resource.Success(data = book))
+
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: ("Http Error: " + e.message)))
             Log.i(TAG, e.message.toString())

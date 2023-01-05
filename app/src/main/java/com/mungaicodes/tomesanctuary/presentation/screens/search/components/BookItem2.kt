@@ -6,6 +6,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -19,7 +20,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,13 +28,13 @@ import coil.request.ImageRequest
 import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.domain.model.Book
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.GreenGrey50
-import com.mungaicodes.tomesanctuary.presentation.ui.theme.Grey10
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.SelectedItem
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 
 @Composable
 fun BookItem2(
     book: Book,
+    onClick: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     Card(
@@ -47,6 +47,7 @@ fun BookItem2(
                     stiffness = Spring.StiffnessLow
                 )
             )
+            .clickable { onClick(book.id) }
     ) {
         Column {
             Box(

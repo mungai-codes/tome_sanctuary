@@ -64,7 +64,9 @@ fun SearchScreen(
                 ) {
                     items(state.books) { book ->
                         if (book != null) {
-                            BookItem2(book = book)
+                            BookItem2(book = book) {
+
+                            }
                         }
                     }
                 }
@@ -78,7 +80,11 @@ fun SearchScreen(
                 ) {
                     items(state.books) { book ->
                         if (book != null) {
-                            BookItem2(book = book)
+                            BookItem2(
+                                book = book,
+                            ) {
+
+                            }
                         }
                     }
                 }

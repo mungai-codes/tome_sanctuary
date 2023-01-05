@@ -1,5 +1,6 @@
 package com.mungaicodes.tomesanctuary.data.mapper
 
+import com.mungaicodes.tomesanctuary.data.remote.dto.Item
 import com.mungaicodes.tomesanctuary.data.remote.dto.Response
 import com.mungaicodes.tomesanctuary.domain.model.Book
 
@@ -16,4 +17,17 @@ fun Response.toListOfBooks(): List<Book> {
             volumeInfo = item.volumeInfo
         )
     }
+}
+
+fun Item.toBook(): Book {
+    return Book(
+        accessInfo = accessInfo,
+        etag = etag,
+        id = id,
+        kind = kind,
+        saleInfo = saleInfo,
+        searchInfo = searchInfo,
+        selfLink = selfLink,
+        volumeInfo = volumeInfo
+    )
 }
