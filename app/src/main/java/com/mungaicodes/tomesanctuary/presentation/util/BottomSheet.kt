@@ -1,19 +1,25 @@
 package com.mungaicodes.tomesanctuary.presentation.util
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.rounded.Book
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle.Companion.Italic
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -122,63 +128,113 @@ fun Holder() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Holder2() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+
+    BottomSheetWithAnchor()
+
+}
+
+@Composable
+fun BottomSheetContent() {
+    Surface(
+        modifier = Modifier.height(300.dp),
+        color = Color(0xff7353ba)
     ) {
-        Box(
-            Modifier
-                .padding(10.dp)
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val imagePainter = painterResource(id = categories[0].image)
-            val imageOffset = 20.dp
-            Card(
-                shape = RoundedCornerShape(0.dp),
-                backgroundColor = Color.DarkGray,
-                modifier = Modifier
-                    .padding(bottom = imageOffset)
-                    .width(200.dp)
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(20.dp)
-                ) {
-                    Text(
-                        "Title",
-                        modifier = Modifier.align(Alignment.Start)
-                    )
-                    Spacer(modifier = Modifier.size(15.dp))
-                    Text("PM2.5")
-                    Text(
-                        "10",
-                        fontSize = 35.sp,
-                    )
-                    Text("m/s")
-                    Spacer(modifier = Modifier.size(15.dp))
-                    Text(
-                        "Very Good",
-                        fontSize = 25.sp,
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .size(
-                                with(LocalDensity.current) { imagePainter.intrinsicSize.height.toDp() - imageOffset }
-                            )
-                    )
-                }
-            }
-            Image(
-                painter = imagePainter,
-                contentDescription = "",
-                Modifier
-                    .align(Alignment.BottomCenter)
-                    .size(64.dp),
-                contentScale = ContentScale.Crop
+            Text(
+                text = "Modal Bottom Sheet",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(10.dp),
+                color = Color.White
+            )
+            Divider(
+                modifier = Modifier.padding(5.dp),
+                color = Color.White
+            )
+            Text(
+                text = "Hellooo",
+                fontSize = 15.sp,
+                fontStyle = Italic,
+                color = Color.White,
+                modifier = Modifier.padding(10.dp)
             )
         }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun ModalSheetWithAnchor(
+    sheetState: ModalBottomSheetState,
+    showModalSheet: MutableState<Boolean>
+) {
+
+    val scope = rememberCoroutineScope()
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Icon(
+            imageVector = Icons.Rounded.Book, contentDescription = "anchor",
+            modifier = Modifier
+                .align(Alignment.Center)
+                .clickable {
+                    showModalSheet.value = !showModalSheet.value
+                    scope.launch { sheetState.show() }
+                }
+        )
+    }
+
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun BottomSheetWithAnchor() {
+
+    val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
+    val scope = rememberCoroutineScope()
+    val sheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = sheetState
+    )
+
+    BottomSheetScaffold(
+        scaffoldState = sheetScaffoldState,
+        sheetElevation = 0.dp,
+        sheetBackgroundColor = Color.Transparent,
+        sheetPeekHeight = 49.dp,
+        sheetContent = {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                IconButton(onClick = {
+                    scope.launch {
+                        if (sheetState.isCollapsed) {
+                            sheetState.expand()
+                        } else if (sheetState.isExpanded) {
+                            sheetState.collapse()
+                        }
+                    }
+                }) {
+                    val icon = if (sheetState.isExpanded) {
+                        Icons.Filled.KeyboardArrowDown
+                    } else {
+                        Icons.Filled.KeyboardArrowUp
+                    }
+
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = "Icon button"
+                    )
+                }
+                BottomSheetContent()
+            }
+        }
+    ) {
+
     }
 }
 
