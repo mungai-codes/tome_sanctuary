@@ -4,7 +4,10 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -12,6 +15,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.StickyNote2
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material.icons.twotone.Bookmark
 import androidx.compose.runtime.*
@@ -24,9 +28,11 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,6 +45,7 @@ import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
 import com.mungaicodes.tomesanctuary.presentation.screens.search.components.BookItem2
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.*
+import com.mungaicodes.tomesanctuary.presentation.util.SheetContent
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -50,25 +57,14 @@ fun CategoryScreen(
     val scaffoldState = rememberScaffoldState()
     val lazyGridState = rememberLazyGridState()
     val modalBottomSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden
+        initialValue = ModalBottomSheetValue.Hidden,
+        skipHalfExpanded = true
     )
     val viewModel: CategoryResultsViewModel = hiltViewModel()
     val state = viewModel.uiState.collectAsState().value
 
     val scope = rememberCoroutineScope()
 
-    var bookMarkSelected by remember {
-        mutableStateOf(false)
-    }
-
-    val (bookMarkIcon, tint) = when (bookMarkSelected) {
-        false -> Pair(Icons.TwoTone.Bookmark, StatusBar)
-        true -> Pair(Icons.TwoTone.Bookmark, GreenGrey50.copy(alpha = 1f))
-    }
-
-    var bottomSheetIsOpen by remember {
-        mutableStateOf(false)
-    }
 
     BackHandler(enabled = modalBottomSheetState.isVisible) {
         scope.launch {
@@ -86,40 +82,9 @@ fun CategoryScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 Box(modifier = Modifier.fillMaxSize()) {
-                    Surface(
-                        color = LampLight,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(600.dp)
-                            .padding(horizontal = 4.dp)
-                            .offset(y = 100.dp),
-                        elevation = 16.dp,
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Row(
-                                Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                IconButton(
-                                    onClick = { }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Share,
-                                        contentDescription = "share",
-                                        tint = StatusBar
-                                    )
-                                }
-                                IconButton(onClick = { bookMarkSelected = !bookMarkSelected }) {
-                                    Icon(
-                                        imageVector = bookMarkIcon,
-                                        contentDescription = "share",
-                                        tint = tint
-                                    )
-                                }
-                            }
-                        }
-                    }
+
+                    SheetContent()
+
                     Surface(
                         modifier = Modifier
                             .size(height = 190.dp, width = 130.dp)
