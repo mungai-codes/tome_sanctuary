@@ -13,21 +13,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mungaicodes.tomesanctuary.R
+import com.mungaicodes.tomesanctuary.domain.model.Book
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.GreenGrey50
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.StatusBar
-import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
 
 @Composable
-fun SheetContent() {
+fun SheetContent(book: Book?) {
 
     var bookMarkSelected by remember {
         mutableStateOf(false)
@@ -41,10 +39,10 @@ fun SheetContent() {
     Surface(
         color = LampLight,
         modifier = Modifier
+            .height(650.dp)
             .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(horizontal = 8.dp)
-            .offset(y = 80.dp),
+            .padding(horizontal = 6.dp)
+            .offset(y = 60.dp),
         elevation = 16.dp,
         shape = RoundedCornerShape(10.dp)
     ) {
@@ -53,7 +51,6 @@ fun SheetContent() {
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 15.dp)
                     .padding(horizontal = 12.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -96,38 +93,49 @@ fun SheetContent() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Android",
+                        text = book?.volumeInfo?.categories.toString().replace("[", "")
+                            .replace("]", ""),
                         color = GreenGrey50,
                         textAlign = TextAlign.Center,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
                     )
                     Text(
-                        text = "Author : Mungai",
+                        text = "Author : ${
+                            book?.volumeInfo?.authors.toString().replace("[", "").replace("]", "")
+                        }",
                         color = GreenGrey50,
                         textAlign = TextAlign.Center,
-                    )
-                    Text(
-                        text = "Hollywood Stalwarts in Literature",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
                         overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center,
+                        maxLines = 2
                     )
-                    Text(
-                        text =
-                        "A brief overview of how good of an android developer I am.",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(start = 15.dp)
-                    )
+                    book?.volumeInfo?.title?.replace("[", "")?.let {
+                        Text(
+                            text = it.replace("]", ""),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            overflow = TextOverflow.Ellipsis,
+                            textAlign = TextAlign.Center,
+                            maxLines = 2
+                        )
+                    }
+                    book?.volumeInfo?.subtitle?.replace("[", "")?.let {
+                        Text(
+                            text = it.replace("]", ""),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .padding(start = 15.dp)
+                        )
+                    }
                 }
 
                 Column(
                     verticalArrangement = Arrangement.spacedBy(2.dp),
                     modifier = Modifier
                         .padding(vertical = 20.dp)
-                        .height(200.dp)
+                        .height(225.dp)
                 ) {
 
                     Text(
@@ -141,68 +149,107 @@ fun SheetContent() {
                             .verticalScroll(rememberScrollState())
                             .weight(weight = 1f, fill = false)
                     ) {
-                        Text(
-                            text = stringResource(id = R.string.test_paragraph),
-                        )
+                        book?.volumeInfo?.description?.let {
+                            Text(
+                                text = it.replace("<p>", "")
+                                    .replace("</p>", "")
+                                    .replace("<ul>", "")
+                                    .replace("</ul>", "")
+                                    .replace("<li>", "")
+                                    .replace("</li>", "")
+                                    .replace("<i>", "")
+                                    .replace("</i>", "")
+                                    .replace("<b>", "")
+                                    .replace("</b>", "")
+                                    .replace("<br>", ""),
+                                fontFamily = FontFamily.Monospace,
+                                fontWeight = FontWeight.Light,
+                                textAlign = TextAlign.Start
+                            )
+                        }
                     }
                 }
 
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Column {
-                        Text(
-                            text = "Publisher",
-                            color = GreenGrey50,
-                            textAlign = TextAlign.Center
-                        )
-                        Text(
-                            text = "Pages",
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                    Column {
-                        Text(
-                            text = "Pages",
-                            color = GreenGrey50,
-                            textAlign = TextAlign.Center
-                        )
-                        Text(
-                            text = "Rating",
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                    Column {
-                        Text(
-                            text = "Rating",
-                            color = GreenGrey50,
-                            textAlign = TextAlign.Center
-                        )
-                        Text(
-                            text = "Published",
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                    Column {
-                        Text(
-                            text = "Published",
-                            color = GreenGrey50,
-                            textAlign = TextAlign.Center
-                        )
-                        Text(
-                            text = "Publisher",
-                            textAlign = TextAlign.Center
-                        )
+                    book?.volumeInfo?.let { theBook ->
+
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "Publisher",
+                                color = GreenGrey50,
+                                fontWeight = FontWeight.SemiBold,
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = theBook.publisher,
+                                textAlign = TextAlign.Center,
+                                fontSize = 14.sp
+                            )
+                        }
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "Pages",
+                                color = GreenGrey50,
+                                fontWeight = FontWeight.SemiBold,
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = theBook.pageCount.toString(),
+                                textAlign = TextAlign.Center,
+                                fontSize = 14.sp
+                            )
+                        }
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "Rating",
+                                color = GreenGrey50,
+                                fontWeight = FontWeight.SemiBold,
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = theBook.ratingsCount.toString(),
+                                textAlign = TextAlign.Center,
+                                fontSize = 14.sp
+                            )
+                        }
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "Published",
+                                color = GreenGrey50,
+                                fontWeight = FontWeight.SemiBold,
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = theBook.publishedDate,
+                                textAlign = TextAlign.Center,
+                                fontSize = 14.sp
+                            )
+                        }
                     }
 
                 }
 
                 Row(
                     modifier = Modifier
-                        .padding(vertical = 20.dp)
+                        .padding(top = 20.dp)
+                        .height(30.dp)
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -261,14 +308,13 @@ fun SheetContent() {
         }
 
     }
-
 }
 
 
-@Preview
-@Composable
-fun ContentPreview() {
-    TomeSanctuaryTheme {
-        SheetContent()
-    }
-}
+//@Preview
+//@Composable
+//fun ContentPreview() {
+//    TomeSanctuaryTheme {
+//        SheetContent()
+//    }
+//}
