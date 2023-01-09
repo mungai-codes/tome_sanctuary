@@ -1,18 +1,20 @@
-package com.mungaicodes.tomesanctuary.presentation.util
+package com.mungaicodes.tomesanctuary.presentation.category.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
+import androidx.compose.material.icons.rounded.LibraryAdd
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.twotone.Bookmark
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,7 +27,12 @@ import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.StatusBar
 
 @Composable
-fun SheetContent(book: Book?) {
+fun SheetContent(
+    book: Book?,
+    onPreviewClick: (String) -> Unit,
+    onSubscribe: () -> Unit,
+    onSampleClick: (String) -> Unit
+) {
 
     var bookMarkSelected by remember {
         mutableStateOf(false)
@@ -113,16 +120,17 @@ fun SheetContent(book: Book?) {
                         Text(
                             text = it.replace("]", ""),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
+                            fontSize = 17.sp,
                             overflow = TextOverflow.Ellipsis,
                             textAlign = TextAlign.Center,
-                            maxLines = 2
+                            maxLines = 2,
+                            fontFamily = FontFamily.Serif,
                         )
                     }
                     book?.volumeInfo?.subtitle?.replace("[", "")?.let {
                         Text(
                             text = it.replace("]", ""),
-                            maxLines = 1,
+                            maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
@@ -178,70 +186,29 @@ fun SheetContent(book: Book?) {
                 ) {
                     book?.volumeInfo?.let { theBook ->
 
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "Publisher",
-                                color = GreenGrey50,
-                                fontWeight = FontWeight.SemiBold,
-                                textAlign = TextAlign.Center
-                            )
-                            Text(
-                                text = theBook.publisher,
-                                textAlign = TextAlign.Center,
-                                fontSize = 14.sp
-                            )
-                        }
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "Pages",
-                                color = GreenGrey50,
-                                fontWeight = FontWeight.SemiBold,
-                                textAlign = TextAlign.Center
-                            )
-                            Text(
-                                text = theBook.pageCount.toString(),
-                                textAlign = TextAlign.Center,
-                                fontSize = 14.sp
-                            )
-                        }
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "Rating",
-                                color = GreenGrey50,
-                                fontWeight = FontWeight.SemiBold,
-                                textAlign = TextAlign.Center
-                            )
-                            Text(
-                                text = theBook.ratingsCount.toString(),
-                                textAlign = TextAlign.Center,
-                                fontSize = 14.sp
-                            )
-                        }
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "Published",
-                                color = GreenGrey50,
-                                fontWeight = FontWeight.SemiBold,
-                                textAlign = TextAlign.Center
-                            )
-                            Text(
-                                text = theBook.publishedDate,
-                                textAlign = TextAlign.Center,
-                                fontSize = 14.sp
-                            )
-                        }
+                        BookExtra(
+                            header = bookExtras[0],
+                            detail = theBook.publisher,
+                            modifier = Modifier.weight(1f)
+                        )
+
+                        BookExtra(
+                            header = bookExtras[1],
+                            detail = theBook.pageCount.toString(),
+                            modifier = Modifier.weight(1f)
+                        )
+
+                        BookExtra(
+                            header = bookExtras[2],
+                            detail = if (theBook.ratingsCount == 0) "___" else theBook.ratingsCount.toString(),
+                            modifier = Modifier.weight(1f)
+                        )
+
+                        BookExtra(
+                            header = bookExtras[3],
+                            detail = theBook.publishedDate,
+                            modifier = Modifier.weight(1f)
+                        )
                     }
 
                 }
@@ -253,53 +220,23 @@ fun SheetContent(book: Book?) {
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
+                    book?.volumeInfo?.let { theBook ->
 
-                    OutlinedButton(
-                        onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-                        border = BorderStroke(1.dp, Color.LightGray),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.MenuBook,
-                            contentDescription = "preview"
+                        CustomOutlinedButton(
+                            onClick = { onPreviewClick(theBook.previewLink) },
+                            customOutlinedButton = customOutlinedButtons[0]
                         )
-                        Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-                        Text(
-                            text = "PREVIEW",
-                            fontSize = 8.sp
-                        )
-                    }
 
-                    OutlinedButton(
-                        onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-                        border = BorderStroke(1.dp, Color.LightGray),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.PlayCircleOutline,
-                            contentDescription = null
+                        CustomOutlinedButton(
+                            onClick = { onSubscribe() },
+                            customOutlinedButton = customOutlinedButtons[1]
                         )
-                        Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-                        Text(
-                            text = "N/A",
-                            fontSize = 8.sp
-                        )
-                    }
 
-                    OutlinedButton(
-                        onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-                        border = BorderStroke(1.dp, Color.LightGray)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.StickyNote2,
-                            contentDescription = "sample"
+                        CustomOutlinedButton(
+                            onClick = { onSampleClick(theBook.previewLink) },
+                            customOutlinedButton = customOutlinedButtons[2]
                         )
-                        Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-                        Text(
-                            text = "SAMPLE",
-                            fontSize = 8.sp
-                        )
+
                     }
 
                 }

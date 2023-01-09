@@ -38,7 +38,7 @@ import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
 import com.mungaicodes.tomesanctuary.presentation.screens.search.components.BookItem2
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.*
-import com.mungaicodes.tomesanctuary.presentation.util.SheetContent
+import com.mungaicodes.tomesanctuary.presentation.category.components.SheetContent
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -73,7 +73,12 @@ fun CategoryScreen(
 
             Box {
 
-                SheetContent(state.modalBook)
+                SheetContent(
+                    state.modalBook,
+                    onPreviewClick = {},
+                    onSampleClick = {},
+                    onSubscribe = {}
+                )
                 Surface(
                     modifier = Modifier
                         .size(height = 150.dp, width = 110.dp)
