@@ -3,7 +3,6 @@ package com.mungaicodes.tomesanctuary.presentation.home.screens
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -13,7 +12,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
@@ -23,11 +22,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.mungaicodes.tomesanctuary.presentation.home.components.*
+import com.mungaicodes.tomesanctuary.presentation.home.components.CategoryItem
+import com.mungaicodes.tomesanctuary.presentation.home.components.FabButton
+import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
+import com.mungaicodes.tomesanctuary.presentation.home.components.categories
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     navController: NavController
@@ -50,7 +51,17 @@ fun HomeScreen(
             }
         },
         floatingActionButton = {
-            FabButton()
+            FabButton(
+                bookMarkClicked = {
+
+                },
+                homeClicked = {
+
+                },
+                searchClicked = {
+                    navController.navigate("search")
+                }
+            )
         }
     ) { innerPadding ->
 

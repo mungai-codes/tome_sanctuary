@@ -1,9 +1,8 @@
-package com.mungaicodes.tomesanctuary.presentation.screens.search.components
+package com.mungaicodes.tomesanctuary.presentation.search.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
@@ -23,7 +22,7 @@ fun ItemExpandButton(
             imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
             tint = Violet40,
             contentDescription = "click to expand for more details",
-            modifier = modifier.size(26.dp,26.dp)
+            modifier = modifier.size(26.dp, 26.dp)
         )
     }
 }

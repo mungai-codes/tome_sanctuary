@@ -24,6 +24,9 @@ import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
 @Composable
 fun FabMenu(
     modifier: Modifier = Modifier,
+    onBookMarkClick: () -> Unit,
+    onHomeClick: () -> Unit,
+    onSearchClick: () -> Unit
 ) {
     Card(
         modifier = modifier
@@ -42,23 +45,17 @@ fun FabMenu(
             FabMenuItem(
                 icon = Icons.Rounded.Bookmark,
                 description = "bookmark",
-                onClick = {
-                    //TODO
-                }
+                onClick = { onBookMarkClick() }
             )
             FabMenuItem(
                 icon = Icons.Rounded.Home,
                 description = "home",
-                onClick = {
-                    //TODO
-                }
+                onClick = { onHomeClick() }
             )
             FabMenuItem(
                 icon = Icons.Rounded.Search,
                 description = "search",
-                onClick = {
-                    //TODO
-                }
+                onClick = { onSearchClick() }
             )
         }
 
@@ -93,7 +90,7 @@ fun Fabtest() {
                 .padding(end = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            FabMenu()
+            FabMenu(onHomeClick = {}, onBookMarkClick = {}, onSearchClick = {})
             Spacer(modifier = Modifier.width(12.dp))
             FloatingActionButton(onClick = { /*TODO*/ }) {
                 Icon(imageVector = Icons.Rounded.FileOpen, contentDescription = null)

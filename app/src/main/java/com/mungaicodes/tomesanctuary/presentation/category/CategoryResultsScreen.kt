@@ -35,10 +35,10 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mungaicodes.tomesanctuary.R
-import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
-import com.mungaicodes.tomesanctuary.presentation.screens.search.components.BookItem2
-import com.mungaicodes.tomesanctuary.presentation.ui.theme.*
 import com.mungaicodes.tomesanctuary.presentation.category.components.SheetContent
+import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
+import com.mungaicodes.tomesanctuary.presentation.search.components.BookItem2
+import com.mungaicodes.tomesanctuary.presentation.ui.theme.*
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -268,7 +268,7 @@ fun CategoryScreen(
     }
 }
 
-private fun Modifier.bottomElevation(): Modifier = this.then(Modifier.drawWithContent {
+fun Modifier.bottomElevation(): Modifier = this.then(Modifier.drawWithContent {
     val paddingPx = 8.dp.toPx()
     clipRect(
         left = 0f,

@@ -1,4 +1,4 @@
-package com.mungaicodes.tomesanctuary.presentation.screens.search
+package com.mungaicodes.tomesanctuary.presentation.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

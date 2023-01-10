@@ -18,7 +18,11 @@ import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.StatusBar
 
 @Composable
-fun FabButton() {
+fun FabButton(
+    bookMarkClicked: () -> Unit,
+    homeClicked: () -> Unit,
+    searchClicked: () -> Unit
+) {
 
     var isCollapsed by remember {
         mutableStateOf(false)
@@ -26,7 +30,11 @@ fun FabButton() {
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         AnimatedVisibility(visible = isCollapsed) {
-            FabMenu()
+            FabMenu(
+                onBookMarkClick = { bookMarkClicked() },
+                onHomeClick = { homeClicked() },
+                onSearchClick = { searchClicked() }
+            )
         }
         Spacer(modifier = Modifier.width(12.dp))
         FloatingActionButton(

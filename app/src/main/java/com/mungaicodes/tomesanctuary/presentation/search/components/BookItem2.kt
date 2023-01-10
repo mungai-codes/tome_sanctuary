@@ -1,4 +1,4 @@
-package com.mungaicodes.tomesanctuary.presentation.screens.search.components
+package com.mungaicodes.tomesanctuary.presentation.search.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
