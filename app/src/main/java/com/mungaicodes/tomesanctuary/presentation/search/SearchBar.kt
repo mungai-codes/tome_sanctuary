@@ -2,8 +2,8 @@ package com.mungaicodes.tomesanctuary.presentation.search
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -11,35 +11,29 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.GreenGrey50
-import com.mungaicodes.tomesanctuary.presentation.ui.theme.SelectedItem
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.StatusBar
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
-import com.mungaicodes.tomesanctuary.util.Constants
-import java.util.*
 
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    searchKeyword: String,
-    dropDownState: Boolean,
-    expandDropDown: () -> Unit,
-    closeDropDown: () -> Unit,
-    selectKeyWord: (String) -> Unit,
+    keyword: String,
+    filter: String,
+    scrollKeyWords: () -> Unit,
+    scrollBookTypes: () -> Unit,
     onSearchClick: () -> Unit,
 ) {
 
@@ -64,7 +58,7 @@ fun SearchBar(
         textStyle = TextStyle(
             color = Color.DarkGray,
             fontFamily = FontFamily.Monospace,
-            fontSize = 15.sp
+            fontSize = 10.sp
         ),
         label = {
             Text(
@@ -77,45 +71,28 @@ fun SearchBar(
         maxLines = 1,
         singleLine = true,
         leadingIcon = {
-            Box(contentAlignment = Alignment.Center) {
-                TextButton(onClick = { expandDropDown() }) {
-                    Text(
-                        text = searchKeyword,
-                        color = Color.DarkGray,
-                        fontFamily = FontFamily.Cursive,
-                        fontSize = 20.sp
-                    )
-                }
-                DropdownMenu(
-                    expanded = dropDownState,
-                    onDismissRequest = { closeDropDown() },
-                    modifier = Modifier
-                        .border(2.dp, StatusBar, RoundedCornerShape(2.dp))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                TextButton(
+                    onClick = { scrollBookTypes() },
                 ) {
                     Text(
-                        text = searchKeyword,
-                        modifier = Modifier.padding(14.dp),
-                        color = SelectedItem,
-                        fontSize = 15.sp,
+                        text = filter,
+                        color = Color.DarkGray,
+                        fontFamily = FontFamily.Cursive,
+                        fontSize = 15.sp
                     )
-                    Divider()
-                    Constants.SEARCH_KEYwORD.forEach { value ->
-                        if (value != searchKeyword) {
-                            DropdownMenuItem(
-                                onClick = {
-                                    selectKeyWord(value)
-                                    closeDropDown()
-                                },
-                            ) {
-                                Text(
-                                    text = value.uppercase(Locale.ROOT).replace(":", ""),
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Light,
-                                    fontFamily = FontFamily.Monospace
-                                )
-                            }
-                        }
-                    }
+                }
+                TextButton(
+                    onClick = { scrollKeyWords() }
+                ) {
+                    Text(
+                        text = keyword,
+                        color = Color.DarkGray,
+                        fontFamily = FontFamily.Cursive,
+                        fontSize = 15.sp
+                    )
                 }
             }
         },

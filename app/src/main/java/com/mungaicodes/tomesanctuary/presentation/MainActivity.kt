@@ -78,6 +78,10 @@ class MainActivity : ComponentActivity() {
                     composable("search") {
                         SearchScreen(navController = navController)
                     }
+
+                    composable("bookmarks") {
+
+                    }
                 }
 
             }

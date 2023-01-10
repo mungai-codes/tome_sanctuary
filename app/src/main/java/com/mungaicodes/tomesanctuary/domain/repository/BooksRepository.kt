@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface BooksRepository {
 
-    suspend fun getSearchResults(query: String): Flow<Resource<List<Book?>>>
+    suspend fun getSearchResults(query: String, filter: String): Flow<Resource<List<Book?>>>
 
     suspend fun findBookByVolumeId(volumeId: String): Flow<Resource<Book>>
 }

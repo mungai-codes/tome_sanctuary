@@ -13,7 +13,7 @@ interface BookApiService {
     suspend fun searchVolumes(
         @Query(value = "q") query: String,
         @Query(value = "download") downloadFormat: String = "epub",
-        @Query(value = "filter") filter: String = "partial",
+        @Query(value = "filter") filter: String,
         @Query(value = "startIndex") startIndex: Int = 0,
         @Query(value = "maxResults") maxResults: Int = 12,
         @Query(value = "printType") printType: String = "books",

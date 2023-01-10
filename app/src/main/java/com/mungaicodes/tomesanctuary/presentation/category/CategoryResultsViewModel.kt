@@ -33,7 +33,7 @@ class CategoryResultsViewModel @Inject constructor(
         }
         savedStateHandle.get<String>("query")?.let { query ->
             viewModelScope.launch {
-                repo.getSearchResults(query).onEach { result ->
+                repo.getSearchResults(query, "ebooks").onEach { result ->
                     when (result) {
                         is Resource.Loading -> {
                             _uiState

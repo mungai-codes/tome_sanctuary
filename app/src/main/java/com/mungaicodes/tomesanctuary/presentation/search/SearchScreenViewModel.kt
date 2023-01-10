@@ -3,6 +3,8 @@ package com.mungaicodes.tomesanctuary.presentation.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mungaicodes.tomesanctuary.domain.repository.BooksRepository
+import com.mungaicodes.tomesanctuary.presentation.search.util.filterList
+import com.mungaicodes.tomesanctuary.presentation.search.util.keyWords
 import com.mungaicodes.tomesanctuary.util.Resource
 import com.mungaicodes.tomesanctuary.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,10 +28,11 @@ class SearchScreenViewModel @Inject constructor(
 
     fun onSearch() {
         val queryString = _uiState.value.searchQuery
-        val keyword = _uiState.value.searchKeyWord
+        val keyword = keyWords[_uiState.value.keyWordIndex].value
+        val filter = filterList[_uiState.value.filterIndex].value
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            repo.getSearchResults(keyword + queryString).onEach { result ->
+            repo.getSearchResults(query = keyword + queryString, filter = filter).onEach { result ->
                 when (result) {
                     is Resource.Loading -> {
                         _uiState.update {
@@ -74,21 +77,29 @@ class SearchScreenViewModel @Inject constructor(
         }
     }
 
-    fun keywordSelector(keyword: String) {
-        _uiState.update {
-            it.copy(searchKeyWord = keyword)
+    fun phaseThroughKeyWords() {
+
+        var currentIndex = _uiState.value.keyWordIndex
+
+        if (currentIndex < 2) {
+            currentIndex++
+            _uiState.update { it.copy(keyWordIndex = currentIndex) }
+        } else if (currentIndex == 2) {
+            currentIndex--
+            _uiState.update { it.copy(keyWordIndex = 0) }
         }
     }
 
-    fun expandDropDown() {
-        _uiState.update {
-            it.copy(menuExpanded = true)
-        }
-    }
+    fun phaseThroughFilters() {
+        var currentIndex = _uiState.value.filterIndex
 
-    fun closeDropdown() {
-        _uiState.update {
-            it.copy(menuExpanded = false)
+        if (currentIndex < 4) {
+            currentIndex++
+            _uiState.update { it.copy(filterIndex = currentIndex) }
+        } else if (currentIndex == 4) {
+            currentIndex--
+            _uiState.update { it.copy(filterIndex = 0) }
         }
+
     }
 }

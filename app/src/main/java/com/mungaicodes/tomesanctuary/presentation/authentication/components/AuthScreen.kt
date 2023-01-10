@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import com.google.android.gms.common.api.ApiException
 import com.mungaicodes.tomesanctuary.presentation.authentication.AuthViewModel
 import com.mungaicodes.tomesanctuary.presentation.authentication.util.GoogleApiContract
-import com.mungaicodes.tomesanctuary.presentation.screens.search.components.SearchScreen2
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
@@ -53,6 +52,6 @@ fun AuthScreen(
     )
 
     user?.let {
-        SearchScreen2()
+
     }
 }

@@ -56,7 +56,8 @@ fun HomeScreen(
 
                 },
                 homeClicked = {
-
+                    navController.navigate("home")
+                    navController.popBackStack()
                 },
                 searchClicked = {
                     navController.navigate("search")

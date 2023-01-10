@@ -18,10 +18,13 @@ class BooksRepositoryImpl @Inject constructor(
     private val api: BookApiService
 ) : BooksRepository {
 
-    override suspend fun getSearchResults(query: String): Flow<Resource<List<Book?>>> = flow {
+    override suspend fun getSearchResults(
+        query: String,
+        filter: String
+    ): Flow<Resource<List<Book?>>> = flow {
         emit(Resource.Loading())
         try {
-            val books = api.searchVolumes(query).toListOfBooks()
+            val books = api.searchVolumes(query = query, filter = filter).toListOfBooks()
             if (books.isEmpty()) {
                 emit(Resource.Error("Volume not found!!"))
             } else {

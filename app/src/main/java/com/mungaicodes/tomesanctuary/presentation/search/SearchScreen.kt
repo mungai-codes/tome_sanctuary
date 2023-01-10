@@ -24,6 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
 import com.mungaicodes.tomesanctuary.presentation.search.components.BookItem2
+import com.mungaicodes.tomesanctuary.presentation.search.util.filterList
+import com.mungaicodes.tomesanctuary.presentation.search.util.keyWords
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 import com.mungaicodes.tomesanctuary.util.UiEvent
@@ -108,22 +110,21 @@ fun SearchScreen(
                         )
                 ) {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp)
-                            .padding(vertical = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         SearchBar(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             value = state.searchQuery,
-                            searchKeyword = state.searchKeyWord,
                             onValueChange = viewModel::onQueryChanged,
-                            dropDownState = state.menuExpanded,
-                            expandDropDown = { viewModel.expandDropDown() },
-                            selectKeyWord = { viewModel.keywordSelector(it) },
-                            closeDropDown = { viewModel.closeDropdown() }
+                            keyword = keyWords[state.keyWordIndex].label,
+                            filter = filterList[state.filterIndex].label,
+                            scrollKeyWords = {
+                                viewModel.phaseThroughKeyWords()
+                            },
+                            scrollBookTypes = {
+                                viewModel.phaseThroughFilters()
+                            },
                         ) {
                             viewModel.onSearch()
                         }
