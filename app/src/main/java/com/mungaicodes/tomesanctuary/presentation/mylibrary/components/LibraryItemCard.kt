@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -16,29 +17,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.GreenGrey50
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
 
 @Composable
 fun LibraryItemCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    item: LibraryItem
 ) {
     Surface(
         modifier = modifier
             .padding(horizontal = 10.dp),
         color = LampLight,
-        elevation = 0.dp,
+        elevation = 1.dp,
         shape = RoundedCornerShape(15.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(end = 12.dp, top = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(25.dp)
         ) {
-            BookImage()
+            BookImage(
+                imageResource = item.image
+            )
             Column(
                 modifier = Modifier
                     .align(Alignment.Top)
@@ -47,17 +50,18 @@ fun LibraryItemCard(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = "Moses Mungai",
+                    text = item.author,
                     color = GreenGrey50,
                     fontFamily = FontFamily.Serif,
                     fontSize = 15.sp
                 )
                 Text(
-                    text = "The Android Development Journey and Path to Tech Bron'es",
+                    text = item.title,
                     fontFamily = FontFamily.Serif,
                     textAlign = TextAlign.Start,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
+                    color = Color.DarkGray
                 )
             }
         }
@@ -66,18 +70,21 @@ fun LibraryItemCard(
 }
 
 @Composable
-fun BookImage(modifier: Modifier = Modifier) {
+fun BookImage(
+    modifier: Modifier = Modifier,
+    imageResource: Int
+) {
     Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(15.dp)
+        shape = RoundedCornerShape(15.dp),
     ) {
         Box(
             modifier = Modifier
-                .height(140.dp)
-                .width(100.dp)
+                .height(120.dp)
+                .width(85.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.code_icon),
+                painter = painterResource(id = imageResource),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
@@ -94,7 +101,7 @@ fun LibraryItemCardPreview() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LibraryItemCard()
+            LibraryItemCard(item = libraryItems[0])
         }
     }
 }

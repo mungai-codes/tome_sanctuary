@@ -33,7 +33,7 @@ val bookExtras = listOf(
 fun BookExtra(
     modifier: Modifier = Modifier,
     header: BookExtras,
-    detail: String
+    detail: String?
 ) {
     Column(
         modifier = modifier,
@@ -46,7 +46,7 @@ fun BookExtra(
             textAlign = TextAlign.Center
         )
         Text(
-            text = detail,
+            text = detail ?: "No Data",
             textAlign = TextAlign.Center,
             fontSize = 14.sp
         )

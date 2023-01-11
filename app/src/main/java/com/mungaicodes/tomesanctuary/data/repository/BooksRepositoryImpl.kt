@@ -1,7 +1,10 @@
 package com.mungaicodes.tomesanctuary.data.repository
 
 import android.util.Log
+import com.mungaicodes.tomesanctuary.data.local.BookEntity
+import com.mungaicodes.tomesanctuary.data.local.TomeSanctuaryDatabase
 import com.mungaicodes.tomesanctuary.data.mapper.toBook
+import com.mungaicodes.tomesanctuary.data.mapper.toBookEntity
 import com.mungaicodes.tomesanctuary.data.mapper.toListOfBooks
 import com.mungaicodes.tomesanctuary.data.remote.api.BookApiService
 import com.mungaicodes.tomesanctuary.domain.model.Book
@@ -15,8 +18,11 @@ import java.io.IOException
 import javax.inject.Inject
 
 class BooksRepositoryImpl @Inject constructor(
-    private val api: BookApiService
+    private val api: BookApiService,
+    private val db: TomeSanctuaryDatabase
 ) : BooksRepository {
+
+    private val dao = db.dao
 
     override suspend fun getSearchResults(
         query: String,
@@ -53,6 +59,22 @@ class BooksRepositoryImpl @Inject constructor(
             emit(Resource.Error(e.localizedMessage ?: ("IO Error: " + e.message)))
             Log.i(TAG, e.message.toString())
         }
+    }
+
+    override suspend fun insertBook(book: Book) {
+        dao.insertBook(book.toBookEntity())
+    }
+
+    override suspend fun getBookById(id: Int): BookEntity {
+        return dao.getBookById(id)
+    }
+
+    override suspend fun deleteBook(book: Book) {
+        dao.deleteBook(book.toBookEntity())
+    }
+
+    override fun getMyLibrary(): List<BookEntity> {
+        return dao.getMyLibrary()
     }
 
 

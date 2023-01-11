@@ -71,23 +71,15 @@ fun SearchScreen(
         scaffoldState = scaffoldState,
         topBar = {
             ToolBar {
-                Row(
-                    modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(end = 3.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    IconButton(onClick = {
-                        navController.popBackStack()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = "Back",
-                            tint = LampLight
-                        )
-                    }
+
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) {
+                    Icon(
+                        imageVector = Icons.Rounded.ArrowBack,
+                        contentDescription = "Back",
+                        tint = LampLight
+                    )
                 }
             }
         },

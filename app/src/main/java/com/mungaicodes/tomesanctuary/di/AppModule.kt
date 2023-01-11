@@ -1,5 +1,8 @@
 package com.mungaicodes.tomesanctuary.di
 
+import android.app.Application
+import androidx.room.Room
+import com.mungaicodes.tomesanctuary.data.local.TomeSanctuaryDatabase
 import com.mungaicodes.tomesanctuary.data.remote.api.BookApiService
 import com.mungaicodes.tomesanctuary.data.repository.BooksRepositoryImpl
 import com.mungaicodes.tomesanctuary.domain.repository.BooksRepository
@@ -30,5 +33,15 @@ object AppModule {
     @Singleton
     fun provideBooksRepository(api: BookApiService): BooksRepository {
         return BooksRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTomeSanctuaryDatabase(app: Application): TomeSanctuaryDatabase {
+        return Room.databaseBuilder(
+            app,
+            TomeSanctuaryDatabase::class.java,
+            "tome_sanctuary_database"
+        ).build()
     }
 }

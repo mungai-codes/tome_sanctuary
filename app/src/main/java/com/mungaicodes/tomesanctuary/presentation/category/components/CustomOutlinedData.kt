@@ -1,9 +1,7 @@
 package com.mungaicodes.tomesanctuary.presentation.category.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.MenuBook
-import androidx.compose.material.icons.rounded.Subscriptions
-import androidx.compose.material.icons.rounded.TextSnippet
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class CustomOutlinedButton(
@@ -23,13 +21,13 @@ val customOutlinedButtons = listOf(
     CustomOutlinedButton(
         icon = Icons.Rounded.Subscriptions,
         description = "subscribe",
-        buttonLabel = "subscribe",
+        buttonLabel = "SUBSCRIBE",
         isEnabled = true
     ),
     CustomOutlinedButton(
-        icon = Icons.Rounded.TextSnippet,
-        description = "sample",
-        buttonLabel = "sample",
+        icon = Icons.Rounded.Book,
+        description = "Read",
+        buttonLabel = "READ",
         isEnabled = true
     )
 )

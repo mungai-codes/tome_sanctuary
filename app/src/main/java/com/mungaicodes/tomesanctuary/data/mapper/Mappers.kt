@@ -1,5 +1,6 @@
 package com.mungaicodes.tomesanctuary.data.mapper
 
+import com.mungaicodes.tomesanctuary.data.local.BookEntity
 import com.mungaicodes.tomesanctuary.data.remote.dto.Item
 import com.mungaicodes.tomesanctuary.data.remote.dto.Response
 import com.mungaicodes.tomesanctuary.domain.model.Book
@@ -31,3 +32,13 @@ fun Item.toBook(): Book {
         volumeInfo = volumeInfo
     )
 }
+
+fun Book.toBookEntity(): BookEntity {
+    return BookEntity(
+        id = id,
+        title = volumeInfo?.title,
+        thumbnail = volumeInfo?.imageLinks?.thumbnail,
+        authors = volumeInfo?.authors
+    )
+}
+
