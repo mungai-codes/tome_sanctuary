@@ -2,7 +2,7 @@ package com.mungaicodes.tomesanctuary.data.repository
 
 import android.util.Log
 import com.mungaicodes.tomesanctuary.data.local.BookEntity
-import com.mungaicodes.tomesanctuary.data.local.TomeSanctuaryDatabase
+import com.mungaicodes.tomesanctuary.data.local.TomeSanctuaryDao
 import com.mungaicodes.tomesanctuary.data.mapper.toBook
 import com.mungaicodes.tomesanctuary.data.mapper.toBookEntity
 import com.mungaicodes.tomesanctuary.data.mapper.toListOfBooks
@@ -19,10 +19,9 @@ import javax.inject.Inject
 
 class BooksRepositoryImpl @Inject constructor(
     private val api: BookApiService,
-    private val db: TomeSanctuaryDatabase
+    private val dao: TomeSanctuaryDao
 ) : BooksRepository {
 
-    private val dao = db.dao
 
     override suspend fun getSearchResults(
         query: String,
@@ -59,6 +58,10 @@ class BooksRepositoryImpl @Inject constructor(
             emit(Resource.Error(e.localizedMessage ?: ("IO Error: " + e.message)))
             Log.i(TAG, e.message.toString())
         }
+    }
+
+    override suspend fun findBookById(volumeId: String): Book {
+        return api.findBookById(volumeId).toBook()
     }
 
     override suspend fun insertBook(book: Book) {

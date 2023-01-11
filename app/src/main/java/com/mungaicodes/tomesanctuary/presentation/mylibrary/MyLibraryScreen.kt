@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -16,23 +17,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.presentation.home.components.FabButton
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
 import com.mungaicodes.tomesanctuary.presentation.mylibrary.components.LibraryItemCard
-import com.mungaicodes.tomesanctuary.presentation.mylibrary.components.libraryItems
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
 
 @Composable
 fun MyLibraryScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: MyLibraryViewModel = hiltViewModel()
 ) {
 
     val scaffoldState = rememberScaffoldState()
+    val state = viewModel.uiState.collectAsState().value
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -118,8 +121,8 @@ fun MyLibraryScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
 
-                    items(libraryItems) { item ->
-                        LibraryItemCard(item = item)
+                    items(state.myLibrary) { book ->
+                        LibraryItemCard(book = book)
                     }
                 }
             }

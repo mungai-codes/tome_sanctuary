@@ -8,6 +8,6 @@ data class BookEntity(
     val id: String,
     val title: String?,
     val thumbnail: String?,
-    val authors: List<String>?,
+    val authors: List<String?>,
     @PrimaryKey val bookId: Int? = null
 )

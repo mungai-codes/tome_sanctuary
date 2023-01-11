@@ -34,6 +34,7 @@ import com.mungaicodes.tomesanctuary.presentation.home.components.FabButton
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
 import com.mungaicodes.tomesanctuary.presentation.search.components.BookItem2
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -70,7 +71,13 @@ fun CategoryScreen(
                 onPreviewClick = {},
                 onSampleClick = {},
                 onSubscribe = {}
-            )
+            ) {
+                scope.launch {
+                    viewModel.insertBookToDatabase(state.modalBook?.id!!)
+                    delay(500L)
+                    navController.navigate("mylibrary")
+                }
+            }
         },
         sheetElevation = 0.dp
     ) {

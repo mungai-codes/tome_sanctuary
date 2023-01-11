@@ -38,7 +38,8 @@ fun SheetContent(
     book: Book?,
     onPreviewClick: (String) -> Unit,
     onSubscribe: () -> Unit,
-    onSampleClick: (String) -> Unit
+    onSampleClick: (String) -> Unit,
+    onSaveBookClicked: () -> Unit
 ) {
 
 
@@ -107,7 +108,10 @@ fun SheetContent(
                         }
 
                     }
-                    IconButton(onClick = { bookMarkSelected = !bookMarkSelected }) {
+                    IconButton(onClick = {
+                        bookMarkSelected = !bookMarkSelected
+                        onSaveBookClicked()
+                    }) {
                         Icon(
                             imageVector = bookMarkIcon,
                             contentDescription = "share",

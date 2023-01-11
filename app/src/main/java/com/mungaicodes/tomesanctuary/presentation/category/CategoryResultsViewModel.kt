@@ -7,13 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.mungaicodes.tomesanctuary.domain.repository.BooksRepository
 import com.mungaicodes.tomesanctuary.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class CategoryResultsViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     private val repo: BooksRepository
 ) : ViewModel() {
 
@@ -88,4 +90,16 @@ class CategoryResultsViewModel @Inject constructor(
             }.launchIn(this)
         }
     }
+
+    fun insertBookToDatabase(volumeId: String) {
+        viewModelScope.launch {
+            val book = withContext(Dispatchers.Default) {
+                repo.findBookById(volumeId)
+            }
+            withContext(Dispatchers.Default) {
+                repo.insertBook(book)
+            }
+        }
+    }
+
 }

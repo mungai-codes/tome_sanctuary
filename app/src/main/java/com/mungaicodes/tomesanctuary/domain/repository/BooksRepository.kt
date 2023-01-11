@@ -11,6 +11,7 @@ interface BooksRepository {
 
     suspend fun findBookByVolumeId(volumeId: String): Flow<Resource<Book>>
 
+    suspend fun findBookById(volumeId: String): Book
 
     suspend fun insertBook(book: Book)
 

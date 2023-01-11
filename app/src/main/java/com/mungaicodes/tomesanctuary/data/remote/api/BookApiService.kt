@@ -29,5 +29,11 @@ interface BookApiService {
         @Query(value = "apikey") apiKey: String = API_KEY
     ): Item
 
+    @GET("/books/v1/volumes/{volumeId}")
+    suspend fun findBookById(
+        @Path("volumeId") volumeId: String,
+        @Query(value = "apikey") apiKey: String = API_KEY
+    ): Item
+
 
 }

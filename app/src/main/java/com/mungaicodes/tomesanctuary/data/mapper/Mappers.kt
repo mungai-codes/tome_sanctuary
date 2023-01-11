@@ -38,7 +38,6 @@ fun Book.toBookEntity(): BookEntity {
         id = id,
         title = volumeInfo?.title,
         thumbnail = volumeInfo?.imageLinks?.thumbnail,
-        authors = volumeInfo?.authors
+        authors = if (volumeInfo?.authors == null) listOf("No Authors") else volumeInfo.authors
     )
 }
-

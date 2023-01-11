@@ -29,11 +29,6 @@ object AppModule {
             .create(BookApiService::class.java)
     }
 
-    @Provides
-    @Singleton
-    fun provideBooksRepository(api: BookApiService): BooksRepository {
-        return BooksRepositoryImpl(api)
-    }
 
     @Provides
     @Singleton
@@ -43,5 +38,12 @@ object AppModule {
             TomeSanctuaryDatabase::class.java,
             "tome_sanctuary_database"
         ).build()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideBooksRepository(api: BookApiService, db: TomeSanctuaryDatabase): BooksRepository {
+        return BooksRepositoryImpl(api = api, dao = db.dao)
     }
 }
