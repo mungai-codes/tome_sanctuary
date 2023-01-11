@@ -53,11 +53,10 @@ fun HomeScreen(
         floatingActionButton = {
             FabButton(
                 bookMarkClicked = {
-
+                    navController.navigate("mylibrary")
                 },
                 homeClicked = {
-                    navController.navigate("home")
-                    navController.popBackStack()
+
                 },
                 searchClicked = {
                     navController.navigate("search")

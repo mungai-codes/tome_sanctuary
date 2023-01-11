@@ -15,6 +15,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mungaicodes.tomesanctuary.presentation.authentication.AuthViewModel
 import com.mungaicodes.tomesanctuary.presentation.category.CategoryScreen
 import com.mungaicodes.tomesanctuary.presentation.home.screens.HomeScreen
+import com.mungaicodes.tomesanctuary.presentation.mylibrary.MyLibraryScreen
 import com.mungaicodes.tomesanctuary.presentation.search.SearchScreen
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.StatusBar
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
@@ -79,8 +80,8 @@ class MainActivity : ComponentActivity() {
                         SearchScreen(navController = navController)
                     }
 
-                    composable("bookmarks") {
-
+                    composable("mylibrary") {
+                        MyLibraryScreen(navController = navController)
                     }
                 }
 

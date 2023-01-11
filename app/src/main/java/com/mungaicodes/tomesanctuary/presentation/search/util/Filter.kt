@@ -7,6 +7,14 @@ data class Filter(
 
 val filterList = listOf(
     Filter(
+        label = "Limited",
+        value = "partial"
+    ),
+    Filter(
+        label = "Full",
+        value = "full"
+    ),
+    Filter(
         label = "Free",
         value = "free-ebooks"
     ),
@@ -17,13 +25,5 @@ val filterList = listOf(
     Filter(
         label = "Ebooks",
         value = "ebooks"
-    ),
-    Filter(
-        label = "Limited",
-        value = "partial"
-    ),
-    Filter(
-        label = "Full",
-        value = "full"
-    ),
+    )
 )

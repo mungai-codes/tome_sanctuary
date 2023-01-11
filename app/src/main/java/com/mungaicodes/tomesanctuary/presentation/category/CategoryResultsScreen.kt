@@ -36,6 +36,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.presentation.category.components.SheetContent
+import com.mungaicodes.tomesanctuary.presentation.home.components.FabButton
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
 import com.mungaicodes.tomesanctuary.presentation.search.components.BookItem2
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.*
@@ -157,6 +158,23 @@ fun CategoryScreen(
                         }
                     }
                 }
+            },
+            floatingActionButton = {
+                FabButton(
+                    bookMarkClicked = {
+                        navController.navigate("mylibrary")
+                    },
+                    homeClicked = {
+                        navController.navigate("home") {
+                            popUpTo(navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                    },
+                    searchClicked = {
+                        navController.navigate("search")
+                    }
+                )
             }
         ) { innerPadding ->
 
