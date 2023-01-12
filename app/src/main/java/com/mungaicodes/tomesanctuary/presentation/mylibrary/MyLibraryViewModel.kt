@@ -35,13 +35,17 @@ class MyLibraryViewModel @Inject constructor(
     fun deleteBookFromLibrary(bookId: String) {
         viewModelScope.launch {
             val book = withContext(Dispatchers.Default) {
-                repo.getBookById(bookId)
+                bookId.let {
+                    repo.getBookById(bookId)
+                }
             }
             withContext(Dispatchers.Default) {
                 repo.deleteBook(
                     book = book
                 )
             }
+
+
         }
     }
 

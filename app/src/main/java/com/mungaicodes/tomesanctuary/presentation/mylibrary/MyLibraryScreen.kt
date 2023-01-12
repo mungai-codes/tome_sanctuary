@@ -19,7 +19,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,8 +28,8 @@ import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.presentation.home.components.FabButton
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
 import com.mungaicodes.tomesanctuary.presentation.mylibrary.components.LibraryItemCard
-import com.mungaicodes.tomesanctuary.presentation.ui.theme.GreenGrey50
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
+import com.mungaicodes.tomesanctuary.presentation.ui.theme.Red80
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
 
@@ -132,41 +131,45 @@ fun MyLibraryScreen(
 
                         val bookId = book.id
 
-                        val dismissState = rememberDismissState()
-
-                        if (dismissState.isDismissed(DismissDirection.EndToStart)) {
-                            viewModel.deleteBookFromLibrary(bookId)
-                        }
+                        val dismissState = rememberDismissState(
+                            confirmStateChange = {
+                                if (it == DismissValue.DismissedToStart) {
+                                    viewModel.deleteBookFromLibrary(bookId)
+                                }
+                                true
+                            }
+                        )
 
                         SwipeToDismiss(
                             state = dismissState,
+                            directions = setOf(DismissDirection.EndToStart),
+                            dismissThresholds = {
+                                FractionalThreshold(0.2f)
+                            },
                             background = {
                                 val color by animateColorAsState(
                                     when (dismissState.targetValue) {
-                                        DismissValue.Default -> TextWhite
-                                        else -> GreenGrey50
+                                        DismissValue.Default -> LampLight
+                                        else -> Red80
                                     }
                                 )
+
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .background(color)
-                                        .padding(horizontal = Dp(20f)),
+                                        .padding(horizontal = 12.dp),
                                     contentAlignment = Alignment.CenterEnd
                                 ) {
                                     IconButton(onClick = { /*TODO*/ }) {
                                         Icon(
                                             imageVector = Icons.Rounded.Delete,
-                                            contentDescription = "delete",
+                                            contentDescription = "icon",
                                             tint = LampLight
                                         )
                                     }
                                 }
-                            },
-                            directions = setOf(DismissDirection.EndToStart),
-                            dismissThresholds = { direction ->
-                                FractionalThreshold(if (direction == DismissDirection.EndToStart) 0.2f else 0.5f)
-                            },
+                            }
                         ) {
                             LibraryItemCard(book = book)
                         }
