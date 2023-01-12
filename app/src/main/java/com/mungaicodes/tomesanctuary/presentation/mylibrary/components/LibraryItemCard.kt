@@ -1,10 +1,12 @@
 package com.mungaicodes.tomesanctuary.presentation.mylibrary.components
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -24,13 +27,14 @@ import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
 @Composable
 fun LibraryItemCard(
     modifier: Modifier = Modifier,
-    book: BookEntity
+    book: BookEntity,
+    elevation: State<Dp> = animateDpAsState(targetValue = 1.dp)
 ) {
     Surface(
         modifier = modifier
             .padding(horizontal = 10.dp),
         color = LampLight,
-        elevation = 1.dp,
+        elevation = elevation.value,
         shape = RoundedCornerShape(15.dp)
     ) {
         Row(

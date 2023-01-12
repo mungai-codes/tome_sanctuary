@@ -73,7 +73,7 @@ fun CategoryScreen(
                 onSubscribe = {}
             ) {
                 scope.launch {
-                    viewModel.insertBookToDatabase(state.modalBook?.id!!)
+                    state.modalBook?.id?.let { viewModel.insertBookToDatabase(it) }
                     delay(500L)
                     navController.navigate("mylibrary")
                 }

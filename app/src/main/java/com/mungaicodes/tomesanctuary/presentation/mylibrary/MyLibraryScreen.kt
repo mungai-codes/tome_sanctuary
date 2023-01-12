@@ -1,19 +1,23 @@
 package com.mungaicodes.tomesanctuary.presentation.mylibrary
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.TravelExplore
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -28,10 +32,7 @@ import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.presentation.home.components.FabButton
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
 import com.mungaicodes.tomesanctuary.presentation.mylibrary.components.LibraryItemCard
-import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
-import com.mungaicodes.tomesanctuary.presentation.ui.theme.Red80
-import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
-import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
+import com.mungaicodes.tomesanctuary.presentation.ui.theme.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -135,6 +136,9 @@ fun MyLibraryScreen(
                             confirmStateChange = {
                                 if (it == DismissValue.DismissedToStart) {
                                     viewModel.deleteBookFromLibrary(bookId)
+                                } else if (it == DismissValue.DismissedToEnd) {
+                                    viewModel.refreshScreen()
+                                    navController.navigate("preview" + "?bookId=${bookId}")
                                 }
                                 true
                             }
@@ -142,36 +146,63 @@ fun MyLibraryScreen(
 
                         SwipeToDismiss(
                             state = dismissState,
-                            directions = setOf(DismissDirection.EndToStart),
+                            directions = setOf(
+                                DismissDirection.EndToStart,
+                                DismissDirection.StartToEnd
+                            ),
                             dismissThresholds = {
                                 FractionalThreshold(0.2f)
                             },
                             background = {
+
+                                val direction =
+                                    dismissState.dismissDirection ?: return@SwipeToDismiss
+
                                 val color by animateColorAsState(
-                                    when (dismissState.targetValue) {
-                                        DismissValue.Default -> LampLight
-                                        else -> Red80
+                                    targetValue = when (dismissState.targetValue) {
+                                        DismissValue.Default -> TextWhite
+                                        DismissValue.DismissedToEnd -> DarkGreen80
+                                        DismissValue.DismissedToStart -> Red80
                                     }
                                 )
+
+                                val icon = when (direction) {
+                                    DismissDirection.StartToEnd -> Icons.Default.TravelExplore
+                                    DismissDirection.EndToStart -> Icons.Default.Delete
+                                }
+
+                                val scale by animateFloatAsState(
+                                    targetValue =
+                                    if (dismissState.targetValue == DismissValue.Default) 0.8f else 1.2f
+                                )
+
+                                val alignment = when (direction) {
+                                    DismissDirection.StartToEnd -> Alignment.CenterStart
+                                    DismissDirection.EndToStart -> Alignment.CenterEnd
+                                }
 
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .background(color)
                                         .padding(horizontal = 12.dp),
-                                    contentAlignment = Alignment.CenterEnd
+                                    contentAlignment = alignment
                                 ) {
                                     IconButton(onClick = { /*TODO*/ }) {
                                         Icon(
-                                            imageVector = Icons.Rounded.Delete,
+                                            imageVector = icon,
                                             contentDescription = "icon",
-                                            tint = LampLight
+                                            tint = LampLight,
+                                            modifier = Modifier.scale(scale)
                                         )
                                     }
                                 }
                             }
                         ) {
-                            LibraryItemCard(book = book)
+                            LibraryItemCard(
+                                book = book,
+                                elevation = animateDpAsState(targetValue = if (dismissState.dismissDirection != null) 4.dp else 1.dp)
+                            )
                         }
                     }
                 }

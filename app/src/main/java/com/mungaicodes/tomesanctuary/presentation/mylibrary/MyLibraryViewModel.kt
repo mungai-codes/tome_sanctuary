@@ -44,8 +44,22 @@ class MyLibraryViewModel @Inject constructor(
                     book = book
                 )
             }
+            //to induce recomposition
+            withContext(Dispatchers.Default) {
+                val myLibrary = repo.getMyLibrary()
+                _uiState.update {
+                    it.copy(myLibrary = myLibrary)
+                }
+            }
+        }
+    }
 
-
+    fun refreshScreen() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val myLibrary = repo.getMyLibrary()
+            _uiState.update {
+                it.copy(myLibrary = myLibrary)
+            }
         }
     }
 
