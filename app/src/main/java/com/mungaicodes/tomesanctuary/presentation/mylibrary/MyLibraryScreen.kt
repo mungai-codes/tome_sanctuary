@@ -1,13 +1,17 @@
 package com.mungaicodes.tomesanctuary.presentation.mylibrary
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -15,6 +19,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,10 +29,12 @@ import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.presentation.home.components.FabButton
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
 import com.mungaicodes.tomesanctuary.presentation.mylibrary.components.LibraryItemCard
+import com.mungaicodes.tomesanctuary.presentation.ui.theme.GreenGrey50
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyLibraryScreen(
     navController: NavController,
@@ -122,7 +129,47 @@ fun MyLibraryScreen(
                 ) {
 
                     items(state.myLibrary) { book ->
-                        LibraryItemCard(book = book)
+
+                        val bookId = book.id
+
+                        val dismissState = rememberDismissState()
+
+                        if (dismissState.isDismissed(DismissDirection.EndToStart)) {
+                            viewModel.deleteBookFromLibrary(bookId)
+                        }
+
+                        SwipeToDismiss(
+                            state = dismissState,
+                            background = {
+                                val color by animateColorAsState(
+                                    when (dismissState.targetValue) {
+                                        DismissValue.Default -> TextWhite
+                                        else -> GreenGrey50
+                                    }
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(color)
+                                        .padding(horizontal = Dp(20f)),
+                                    contentAlignment = Alignment.CenterEnd
+                                ) {
+                                    IconButton(onClick = { /*TODO*/ }) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Delete,
+                                            contentDescription = "delete",
+                                            tint = LampLight
+                                        )
+                                    }
+                                }
+                            },
+                            directions = setOf(DismissDirection.EndToStart),
+                            dismissThresholds = { direction ->
+                                FractionalThreshold(if (direction == DismissDirection.EndToStart) 0.2f else 0.5f)
+                            },
+                        ) {
+                            LibraryItemCard(book = book)
+                        }
                     }
                 }
             }

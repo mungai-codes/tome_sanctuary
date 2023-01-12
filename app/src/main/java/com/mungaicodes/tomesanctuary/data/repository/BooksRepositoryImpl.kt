@@ -68,12 +68,12 @@ class BooksRepositoryImpl @Inject constructor(
         dao.insertBook(book.toBookEntity())
     }
 
-    override suspend fun getBookById(id: Int): BookEntity {
+    override suspend fun getBookById(id: String): BookEntity {
         return dao.getBookById(id)
     }
 
-    override suspend fun deleteBook(book: Book) {
-        dao.deleteBook(book.toBookEntity())
+    override suspend fun deleteBook(book: BookEntity) {
+        dao.deleteBook(book)
     }
 
     override fun getMyLibrary(): List<BookEntity> {

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class BookEntity(
     val id: String,
     val title: String?,
-    val thumbnail: String?,
+    val mediumThumbnail: String?,
     val authors: List<String?>,
     @PrimaryKey val bookId: Int? = null
 )

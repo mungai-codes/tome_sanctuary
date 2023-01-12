@@ -51,7 +51,7 @@ fun LibraryItemCard(
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(book.thumbnail?.replace("http", "https"))
+                            .data(book.mediumThumbnail?.replace("http", "https"))
                             .crossfade(true)
                             .build(),
                         contentDescription = null,
@@ -67,7 +67,8 @@ fun LibraryItemCard(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = book.authors.toString(),
+                    text = book.authors.toString().replace("[", "")
+                        .replace("]", ""),
                     color = GreenGrey50,
                     fontFamily = FontFamily.Serif,
                     fontSize = 15.sp

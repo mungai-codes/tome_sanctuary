@@ -15,9 +15,9 @@ interface BooksRepository {
 
     suspend fun insertBook(book: Book)
 
-    suspend fun getBookById(id: Int): BookEntity
+    suspend fun getBookById(id: String): BookEntity
 
-    suspend fun deleteBook(book: Book)
+    suspend fun deleteBook(book: BookEntity)
 
     fun getMyLibrary(): List<BookEntity>
 }

@@ -12,7 +12,7 @@ interface TomeSanctuaryDao {
     )
 
     @Query("Select * from mylibrary where id = :id")
-    suspend fun getBookById(id: Int): BookEntity
+    suspend fun getBookById(id: String): BookEntity
 
     @Delete
     suspend fun deleteBook(bookEntity: BookEntity)
