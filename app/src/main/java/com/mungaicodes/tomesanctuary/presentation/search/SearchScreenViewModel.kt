@@ -1,5 +1,6 @@
 package com.mungaicodes.tomesanctuary.presentation.search
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mungaicodes.tomesanctuary.domain.repository.BooksRepository
@@ -8,9 +9,11 @@ import com.mungaicodes.tomesanctuary.presentation.search.util.keyWords
 import com.mungaicodes.tomesanctuary.util.Resource
 import com.mungaicodes.tomesanctuary.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -101,5 +104,43 @@ class SearchScreenViewModel @Inject constructor(
             _uiState.update { it.copy(filterIndex = 0) }
         }
 
+    }
+
+    suspend fun getModalBook(volumeId: String) {
+        viewModelScope.launch {
+            repo.findBookByVolumeId(volumeId).onEach { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _uiState.update {
+                            it.copy(modalBook = result.data)
+                        }
+                        Log.d("ModalBook", "Success")
+                    }
+                    is Resource.Error -> {
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false
+                            )
+                        }
+                        Log.d("ModalBook", "Error")
+                    }
+
+                    is Resource.Loading -> {
+                        //nothing really happens
+                    }
+                }
+            }.launchIn(this)
+        }
+    }
+
+    fun insertBookToDatabase(volumeId: String) {
+        viewModelScope.launch {
+            val book = withContext(Dispatchers.Default) {
+                repo.findBookById(volumeId)
+            }
+            withContext(Dispatchers.Default) {
+                repo.insertBook(book)
+            }
+        }
     }
 }

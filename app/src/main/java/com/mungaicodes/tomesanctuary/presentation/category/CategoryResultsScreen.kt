@@ -1,5 +1,6 @@
 package com.mungaicodes.tomesanctuary.presentation.category
 
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
@@ -20,6 +21,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,7 +37,9 @@ import com.mungaicodes.tomesanctuary.presentation.home.components.FabButton
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
 import com.mungaicodes.tomesanctuary.presentation.search.components.BookItem2
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.*
+import com.mungaicodes.tomesanctuary.util.UiEvent
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -54,11 +58,32 @@ fun CategoryScreen(
     val state = viewModel.uiState.collectAsState().value
 
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
 
     BackHandler(enabled = modalBottomSheetState.isVisible) {
         scope.launch {
             modalBottomSheetState.hide()
+        }
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvent.ShowSnackBar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message
+                    )
+                }
+                is UiEvent.ShowInfoToast -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                }
+                is UiEvent.ShowIoSnackBar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message
+                    )
+                }
+            }
         }
     }
 
@@ -76,7 +101,9 @@ fun CategoryScreen(
                 scope.launch {
                     state.modalBook?.id?.let { viewModel.insertBookToDatabase(it) }
                     delay(500L)
+
                     navController.navigate("mylibrary")
+
                 }
             }
         },

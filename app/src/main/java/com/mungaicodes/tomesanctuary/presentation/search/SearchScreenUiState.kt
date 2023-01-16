@@ -14,4 +14,5 @@ data class SearchScreenUiState(
     val filterIndex: Int = 0,
     val searchQuery: String = "",
     val menuExpanded: Boolean = false,
+    val modalBook: Book? = null
 )

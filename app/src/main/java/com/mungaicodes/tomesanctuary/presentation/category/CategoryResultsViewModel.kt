@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mungaicodes.tomesanctuary.domain.repository.BooksRepository
 import com.mungaicodes.tomesanctuary.util.Resource
+import com.mungaicodes.tomesanctuary.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -21,6 +22,9 @@ class CategoryResultsViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(CategoryResultsUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         savedStateHandle.get<String>("category")?.let { categoryTitle ->
@@ -101,5 +105,6 @@ class CategoryResultsViewModel @Inject constructor(
             }
         }
     }
-
 }
+
+
