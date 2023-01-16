@@ -12,9 +12,13 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
+import com.mungaicodes.tomesanctuary.presentation.ui.theme.StatusBar
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TextWhite
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -39,8 +43,15 @@ fun PreviewScreen(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
-                title = { Text("News App | WebView", color = Color.Green) },
-                backgroundColor = TextWhite
+                title = {
+                    Text(
+                        "TOME SANCTUARY",
+                        color = LampLight,
+                        fontSize = 30.sp,
+                        fontFamily = FontFamily.Serif
+                    )
+                },
+                backgroundColor = StatusBar
             )
         },
         content = {
