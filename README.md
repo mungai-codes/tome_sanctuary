@@ -9,3 +9,15 @@ https://user-images.githubusercontent.com/56951481/212731131-4b56b943-ef8c-4a8e-
 # Part 2
 https://user-images.githubusercontent.com/56951481/212731178-6f287f84-cd6b-43c0-8c7c-42f1c8e265a8.mp4
 
+# Technologies Used:
+
+- Retrofit
+- Rest
+- Kotlin Coroutines
+- Room Api
+- Coil image loader
+- Hilt for dependenncy injection
+
+# Progress
+
+Some features are yet to be implemented.
