@@ -15,13 +15,12 @@ interface BookApiService {
         @Query(value = "download") downloadFormat: String = "epub",
         @Query(value = "filter") filter: String,
         @Query(value = "startIndex") startIndex: Int = 0,
-        @Query(value = "maxResults") maxResults: Int = 12,
+        @Query(value = "maxResults") maxResults: Int = 40,
         @Query(value = "printType") printType: String = "books",
         @Query(value = "projection") projection: String = "lite",
         @Query(value = "orderBy") sorting: String = "relevance",
         @Query(value = "apikey") apiKey: String = API_KEY
     ): Response
-
 
     @GET("/books/v1/volumes/{volumeId}")
     suspend fun findBookByVolumeId(

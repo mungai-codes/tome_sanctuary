@@ -108,7 +108,7 @@ fun HomeScreen(
                         CategoryItem(
                             category = category,
                         ) {
-                            navController.navigate("category" + "?category=${category.title}&query=${category.query}")
+                            navController.navigate("category" + "?category=${category.label}&query=${category.value}")
                         }
                     }
                 }

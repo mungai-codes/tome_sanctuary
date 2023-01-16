@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.mungaicodes.tomesanctuary.presentation.category.components.BookItem
 import com.mungaicodes.tomesanctuary.presentation.category.components.SheetContent
 import com.mungaicodes.tomesanctuary.presentation.home.components.FabButton
 import com.mungaicodes.tomesanctuary.presentation.home.components.ToolBar
@@ -228,7 +229,7 @@ fun CategoryScreen(
                     ) {
                         items(state.books) { zeBook ->
                             if (zeBook != null) {
-                                BookItem2(
+                                BookItem(
                                     book = zeBook,
                                     onClick = {
                                         scope.launch {

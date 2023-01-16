@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.mungaicodes.tomesanctuary.R
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.LampLight
 import com.mungaicodes.tomesanctuary.presentation.ui.theme.TomeSanctuaryTheme
+import java.util.*
 
 @Composable
 fun CategoryItem(
@@ -73,14 +74,14 @@ fun CategoryItem(
             Box(modifier = Modifier.size(50.dp)) {
                 Image(
                     painter = painterResource(category.image),
-                    contentDescription = category.description,
+                    contentDescription = category.label,
                     contentScale = ContentScale.FillBounds
                 )
             }
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-                text = category.title,
-                fontSize = 15.sp,
+                text = category.label,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.Serif,
                 textAlign = TextAlign.Center,
@@ -104,9 +105,8 @@ fun CatetegoryCardPreview() {
         ) {
             CategoryItem(
                 category = Category(
-                    title = "Art & Literature",
+                    label = "Art & Literature",
                     image = R.drawable.code_icon,
-                    description = "",
                 )
             ) {
 
